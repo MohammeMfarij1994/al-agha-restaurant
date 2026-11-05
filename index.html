@@ -16,6 +16,15 @@
     <!-- Supabase Realtime Client JS v2 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <!-- PWA Manifest & Mobile Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#030303">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="مطعم الآغا">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
@@ -244,6 +253,32 @@
     <div id="store-closed-banner" class="hidden bg-amber-950/80 border-b border-gold-400/40 px-4 py-2.5 text-center text-xs font-bold text-gold-200">
         <i class="fa-solid fa-clock text-gold-400 ml-1"></i>
         <span>مطعم الآغا مغلق حالياً — نسعد باستقبالكم يومياً من 12:00 ظهراً حتى 1:00 بعد منتصف الليل (يمكنك تصفح القائمة وتجهيز طلبك كطلب مجدول مسبقاً).</span>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- PWA QUICK INSTALL BAR (شريط التثبيت الفوري على الهاتف) -->
+    <!-- ===================================================== -->
+    <div id="pwa-install-banner" class="hidden bg-gradient-to-r from-obsidian-950 via-zinc-900 to-obsidian-950 border-b-2 border-gold-400/60 px-4 py-2.5 shadow-xl">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl gold-border-glow overflow-hidden shrink-0">
+                    <svg class="w-full h-full"><use href="#al-agha-logo"></use></svg>
+                </div>
+                <div>
+                    <span class="text-xs font-black text-gold-300 block">تثبيت تطبيق مطعم الآغا</span>
+                    <span class="text-[10px] text-stone-300">أضف التطبيق لشاشة هاتفك للطلب السريع والتنبيهات المباشرة</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="triggerPwaInstall()" class="px-3.5 py-1.5 rounded-xl gold-gradient-bg text-obsidian-950 text-xs font-black shadow hover:brightness-110 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <span>تثبيت على الشاشة</span>
+                </button>
+                <button onclick="document.getElementById('pwa-install-banner').classList.add('hidden')" class="text-stone-400 hover:text-white text-xs px-1">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- ===================================================== -->
@@ -3438,6 +3473,42 @@
             }
             initSplashAndClock();
         });
+
+        // =====================================================
+        // PWA SERVICE WORKER & INSTALL PROMPT LOGIC
+        // =====================================================
+        let deferredInstallPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+            const banner = document.getElementById('pwa-install-banner');
+            if (banner) banner.classList.remove('hidden');
+        });
+
+        function triggerPwaInstall() {
+            if (deferredInstallPrompt) {
+                deferredInstallPrompt.prompt();
+                deferredInstallPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('تم التثبيت بنجاح!', 'أصبح تطبيق مطعم الآغا متوفراً على شاشتك الرئيسية.');
+                    }
+                    deferredInstallPrompt = null;
+                    const banner = document.getElementById('pwa-install-banner');
+                    if (banner) banner.classList.add('hidden');
+                });
+            } else {
+                showToast('تثبيت التطبيق', 'من قائمة خيارات متصفحك (⋮)، اضغط على "إضافة إلى الشاشة الرئيسية" (Add to Home screen).');
+            }
+        }
+
+        // تسجيل خادم الخدمة Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((reg) => console.log('✅ تم تسجيل Service Worker لمطعم الآغا بنجاح:', reg.scope))
+                    .catch((err) => console.warn('تنبيه: تعذر تسجيل Service Worker:', err));
+            });
+        }
     </script>
 </body>
 </html>
