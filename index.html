@@ -156,6 +156,31 @@ html, body {
   padding-right: 12px;
   margin: 0 auto;
 }
+        /* إصلاح ظهور أزرار الترويسة وتسجيل الدخول في الشاشات العمودية */
+@media (max-width: 600px) {
+  /* السماح لعناصر الترويسة بالتنظيم في سطرين مريحين عند ضيق الشاشة */
+  header, nav, .top-bar {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 6px 10px !important;
+  }
+  
+  /* تصغير الخطوط والحشوات قليلاً لتتسع الشاشة لكافة الأيقونات */
+  header button, header a, header span {
+    font-size: 11px !important;
+  }
+
+  /* منع نزول زر الدخول والسلة تحت حافة الشاشة */
+  body {
+    padding-bottom: 80px !important; /* مساحة أمان سفلية لعدم حجب زر الطلب النهائي */
+  }
+}
+        
+        
+
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-gold-400 selection:text-obsidian-950">
