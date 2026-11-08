@@ -1,8 +1,10 @@
 {
   "name": "مطعم الآغا",
   "short_name": "الآغا",
+  "id": "/al-agha-restaurant/",
   "description": "النظام الملكي لطلب الطعام والتوصيل - مطعم الآغا",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0d0f12",
   "theme_color": "#d4af37",
@@ -10,15 +12,15 @@
   "icons": [
     {
       "src": "icon-512.png",
-      "sizes": "192x192",
+      "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ]
 }
