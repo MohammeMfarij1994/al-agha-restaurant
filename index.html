@@ -82,6 +82,21 @@
             background-size: 28px 28px;
             background-position: 0 0, 14px 14px;
         }
+        /* إصلاح تداخل واختفاء أزرار الترويسة في الوضع العمودي */
+@media (max-width: 600px) {
+  header, nav, [class*="header"], [class*="top-bar"] {
+    flex-wrap: wrap !important;
+    row-gap: 8px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+  
+  /* منع ضغط أزرار تسجيل الدخول والسلة وخروجها عن حافة الشاشة */
+  header > div, nav > div {
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+}
         /* Radiant Metallic Gold Shimmer Effect */
         @keyframes goldShimmer {
             0% { background-position: -200% center; }
