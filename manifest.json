@@ -6,9 +6,14 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "window-controls-overlay"],
   "background_color": "#0d0f12",
   "theme_color": "#d4af37",
   "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["food", "shopping", "lifestyle"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "icon-512.png",
