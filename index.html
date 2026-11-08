@@ -135,6 +135,27 @@
                 box-shadow: none !important;
             }
         }
+        /* ضبط أبعاد الشاشة وملاءمة الهواتف */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #0d0f12;
+}
+
+.container, .app-container {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin: 0 auto;
+}
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-gold-400 selection:text-obsidian-950">
